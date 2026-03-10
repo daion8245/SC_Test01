@@ -17,7 +17,19 @@ public class Character : MonoBehaviour
     [SerializeField] protected CharacterType characterType = CharacterType.Player;
     
     public string Name { get => name; set => name = value; }
-    public int Hp { get => hp; set => hp = value; }
+    public int Hp
+    {
+        get => hp;
+        set
+        {
+            hp = Mathf.Clamp(value, 0, maxHp);
+            if (hp <= 0 && isAlive)
+            {
+                isAlive = false;
+                Dead();
+            }
+        }
+    }
     public int MaxHp { get => maxHp; set => maxHp = value; }
     public int Atk { get => atk; set => atk = value; }
     public bool IsAlive { get => isAlive; set => isAlive = value; }
@@ -27,7 +39,7 @@ public class Character : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Character _))
         {
-            if (GetComponentInChildren<Rigidbody>() != null)
+            if (other.gameObject.GetComponentInChildren<Rigidbody>() != null)
             {
                 CrashEntity(other);
                 return true;
@@ -54,6 +66,7 @@ public class Character : MonoBehaviour
     protected virtual void CrashBullets(IBullets bullets)
     {
         Debug.Log($"{Name} 탄막 피격! {bullets.Damage} 데미지!");
+        Hp -= bullets.Damage;
     }
 
     public virtual void Dead()
