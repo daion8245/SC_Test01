@@ -10,13 +10,6 @@ public class Player : Character
     private void Start()
     {
         _gameManager = GameManager.Instance;
-        StartCoroutine(LocationInformation());
-    }
-
-    private IEnumerator LocationInformation()
-    {
-        yield return new WaitForSeconds(0.5f);
-        _gameManager.playerPosition = transform.position;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -27,6 +20,11 @@ public class Player : Character
     protected override void CrashBullets(IBullets bullets)
     {
         base.CrashBullets(bullets);
+    }
+
+    private void Update()
+    {
+        _gameManager.playerPosition = transform.position;
     }
 
     protected override void CrashEntity(Collision other)

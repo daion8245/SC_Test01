@@ -29,6 +29,8 @@ public class GuidedMissile : MonoBehaviour, IBullets
         StartCoroutine(InductiveSwitching());
     }
 
+    
+    //일정 거리 초과하면 오브젝트 삭제하는 코드 만들 것.
     private void Update()
     {
         ((IBullets)this).BulletMovement();
@@ -52,6 +54,7 @@ public class GuidedMissile : MonoBehaviour, IBullets
     void IBullets.ApplyDamage(Character character)
     {
         character.Hp -= Damage;
+        Destroy(gameObject);
     }
 
     void IBullets.BulletMovement()
