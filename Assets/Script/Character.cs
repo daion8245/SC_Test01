@@ -59,6 +59,7 @@ public class Character : MonoBehaviour
     protected virtual void CrashEntity(Collision other)
     {
         Chara = other.gameObject.GetComponentInParent<Character>();
+        if (Chara == null) return;
         Debug.Log($"{Name}! {Chara.name} 충돌!");
     }
 

@@ -12,7 +12,7 @@ public class GuidedMissile : MonoBehaviour, IBullets
     public float BulletSpeed { get; set; }
 
     private bool _inductive = true;
-    private GameManager _gameManager = GameManager.Instance;
+    private GameManager _gameManager;
     private Vector3 _nextRotation;
     private Rigidbody _rigidbody;
 
@@ -24,6 +24,7 @@ public class GuidedMissile : MonoBehaviour, IBullets
 
     private void Start()
     {
+        _gameManager = GameManager.Instance;
         _rigidbody = GetComponent<Rigidbody>();
         StartCoroutine(InductiveSwitching());
     }
