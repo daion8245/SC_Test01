@@ -1,19 +1,16 @@
 using System;
 using UnityEngine;
-using System;
 using System.Collections;
 
 public class Player : Character
 {
     [SerializeField] private float pushingForce;
-    private GameManager _gameManager = GameManager.Instance;
+    private GameManager _gameManager;
 
     private void Start()
     {
-        while (true)
-        {
-            StartCoroutine(LocationInformation());
-        }
+        _gameManager = GameManager.Instance;
+        StartCoroutine(LocationInformation());
     }
 
     private IEnumerator LocationInformation()
@@ -35,6 +32,7 @@ public class Player : Character
     protected override void CrashEntity(Collision other)
     {
         base.CrashEntity(other);
+        if (Chara == null) return;
         Chara.Hp -= atk;
         PushAwayEntity(other);
     }
