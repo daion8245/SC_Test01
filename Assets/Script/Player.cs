@@ -1,9 +1,26 @@
 using System;
 using UnityEngine;
+using System;
+using System.Collections;
 
 public class Player : Character
 {
     [SerializeField] private float pushingForce;
+    private GameManager _gameManager = GameManager.Instance;
+
+    private void Start()
+    {
+        while (true)
+        {
+            StartCoroutine(LocationInformation());
+        }
+    }
+
+    private IEnumerator LocationInformation()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _gameManager.playerPosition = transform.position;
+    }
 
     private void OnCollisionEnter(Collision other)
     {
