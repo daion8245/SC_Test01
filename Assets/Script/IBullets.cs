@@ -6,6 +6,4 @@ public interface IBullets
     public float BulletSpeed {get;set;}
 
     public void ApplyDamage(Character character);
-
-    public void BulletMovement();
 }
