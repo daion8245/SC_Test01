@@ -27,6 +27,8 @@ public class GuidedMissile : MonoBehaviour, IBullets
     {
         _gameManager = GameManager.Instance;
         _rigidbody = GetComponent<Rigidbody>();
+        if (_gameManager != null)
+            _gameManager.bullets.Add(this);
         StartCoroutine(InductiveSwitching());
         _gameManager.bullets.Add(this);
     }
@@ -52,6 +54,12 @@ public class GuidedMissile : MonoBehaviour, IBullets
     {
         character.Hp -= Damage;
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (_gameManager != null)
+            _gameManager.bullets.Remove(this);
     }
 
     private IEnumerator InductiveSwitching()
