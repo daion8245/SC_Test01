@@ -58,10 +58,21 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
         // --- Pause: 제자리 정지, 대기시간 후 Homing 전환 ---
         yield return new WaitForSeconds(pauseDuration);
 
+<<<<<<< Updated upstream
         // --- Homing: FixedUpdate에서 플레이어 추적 시작 ---
         _inductive = true;
         _fixedUpdateActive = true;
     }
+=======
+        // --- Homing: 플레이어를 향해 회전하며 추적 ---
+        float elapsed = 0f;
+        while (elapsed < homingDuration && _gameManager)
+        {
+            Vector3 dir = (_gameManager.playerPosition - transform.position).normalized;
+            Quaternion targetRot = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation, targetRot, homingTurnSpeed * Time.fixedDeltaTime);
+>>>>>>> Stashed changes
 
     private void FixedUpdate()
     {

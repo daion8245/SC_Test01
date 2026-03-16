@@ -25,7 +25,7 @@ public class RsacEnemy : Character, IEnemies
 
     protected void LateUpdate()
     {
-        if (GameManager.Instance != null)
+        if (GameManager.Instance)
             gameObject.transform.LookAt(GameManager.Instance.playerPosition);
     }
 
