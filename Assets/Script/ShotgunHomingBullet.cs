@@ -92,7 +92,7 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
     private void HomingUpdate()
     {
         _timer += Time.fixedDeltaTime;
-        if (_timer >= homingDuration)
+        if (_timer >= homingDuration || _gameManager == null)
         {
             Destroy(gameObject);
             return;
@@ -123,9 +123,8 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
 
     private void OnDestroy()
     {
-        if(_gameManager.bullets == null)
+        if (_gameManager == null || _gameManager.bullets == null)
             return;
-        if (_gameManager != null)
-            _gameManager.bullets.Remove(this);
+        _gameManager.bullets.Remove(this);
     }
 }
