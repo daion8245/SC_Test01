@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
     
     public Vector3 playerPosition;
     public Player player;
-    public List<IEnemies> enemies;
-    public List<IBullets> bullets;
+    public List<IEnemies> enemies = new List<IEnemies>();
+    public List<IBullets> bullets = new List<IBullets>();
 
     private void Awake()
     {

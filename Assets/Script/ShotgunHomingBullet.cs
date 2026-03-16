@@ -28,12 +28,11 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
     {
         Damage = damage;
         BulletSpeed = bulletSpeed;
-        
-        _gameManager = GameManager.Instance;
     }
 
     private void Start()
     {
+        _gameManager = GameManager.Instance;
         _rigidbody = GetComponent<Rigidbody>();
         _startPos = transform.position;
         _scatterDistSqr = scatterDistance * scatterDistance;
