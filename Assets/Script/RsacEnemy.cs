@@ -4,30 +4,30 @@ using UnityEngine;
 
 public class RsacEnemy : Character, IEnemies
 {
-    [SerializeField] private GameObject prefab;
-    [SerializeField] private GameObject firePosition;
-    [SerializeField] private float fireRate = 2;
-    private bool _loop = true;
+    [SerializeField] protected GameObject prefab;
+    [SerializeField] protected GameObject firePosition;
+    [SerializeField] protected float fireRate = 2;
+    protected bool loop = true;
 
-    private void Update()
+    protected void Update()
     {
-        if (_loop)
+        if (loop)
         {
             StartCoroutine(Fire());
         }
     }
 
-    private void LateUpdate()
+    protected void LateUpdate()
     {
         gameObject.transform.LookAt(GameManager.Instance.playerPosition);
     }
 
-    private IEnumerator Fire()
+    protected virtual IEnumerator Fire()
     {
-        _loop = false;
+        loop = false;
         yield return new WaitForSeconds(fireRate);
         FiringBullet();
-        _loop = true;
+        loop = true;
     }
 
     public void FiringBullet()

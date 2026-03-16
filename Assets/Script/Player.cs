@@ -6,10 +6,14 @@ public class Player : Character
 {
     [SerializeField] private float pushingForce;
     private GameManager _gameManager;
+    private UiManager _uiManager;
 
     private void Start()
     {
         _gameManager = GameManager.Instance;
+        _uiManager = UiManager.Instance;
+        _gameManager.player = this;
+        _uiManager.player = this;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -19,7 +23,7 @@ public class Player : Character
 
     protected override void CrashBullets(IBullets bullets)
     {
-        base.CrashBullets(bullets);
+        Debug.Log("총알 피격");
     }
 
     private void Update()

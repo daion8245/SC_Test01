@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance => _instance;
     
     public Vector3 playerPosition;
+    public Player player;
 
     private void Awake()
     {
