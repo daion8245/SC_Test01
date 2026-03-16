@@ -21,6 +21,7 @@ public class GuidedMissile : MonoBehaviour, IBullets
         Damage = damage;
         BulletSpeed = bulletSpeed;
         _maxDistanceSqr = maxDistance * maxDistance;
+        _gameManager.bullets.Add(this);
     }
 
     private void Start()

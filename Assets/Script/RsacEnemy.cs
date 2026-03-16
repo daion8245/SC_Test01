@@ -9,6 +9,11 @@ public class RsacEnemy : Character, IEnemies
     [SerializeField] protected float fireRate = 2;
     protected bool loop = true;
 
+    private void Awake()
+    {
+        GameManager.Instance.enemies.Add(this);
+    }
+
     protected void Update()
     {
         if (loop)

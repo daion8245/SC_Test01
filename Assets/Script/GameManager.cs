@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +9,8 @@ public class GameManager : MonoBehaviour
     
     public Vector3 playerPosition;
     public Player player;
+    public List<IEnemies> enemies;
+    public List<IBullets> bullets;
 
     private void Awake()
     {
