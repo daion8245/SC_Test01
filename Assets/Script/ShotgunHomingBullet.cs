@@ -7,9 +7,6 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
     [SerializeField] private float bulletSpeed = 12f;
     [SerializeField] private float scatterDistance = 3.5f;
     [SerializeField] private float pauseDuration = 0.8f;
-    [SerializeField] private float homingSpeed = 6f;
-    [SerializeField] private float homingTurnSpeed = 120f;
-    [SerializeField] private float homingDuration = 3f;
     [SerializeField] private float maxDistance = 30f;
 
     public int Damage { get; set; }
@@ -17,7 +14,9 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
 
     private GameManager _gameManager;
     private Rigidbody _rigidbody;
-    private float _maxDistSqr;
+    private float _maxDistanceSqr;
+    private bool _inductive;
+    private bool _fixedUpdateActive;
 
     private void Awake()
     {
@@ -29,7 +28,7 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
     {
         _gameManager = GameManager.Instance;
         _rigidbody = GetComponent<Rigidbody>();
-        _maxDistSqr = maxDistance * maxDistance;
+        _maxDistanceSqr = maxDistance * maxDistance;
         if (_gameManager != null)
             _gameManager.bullets.Add(this);
 
@@ -59,28 +58,22 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
         // --- Pause: 제자리 정지, 대기시간 후 Homing 전환 ---
         yield return new WaitForSeconds(pauseDuration);
 
-        // --- Homing: 플레이어를 향해 회전하며 추적 ---
-        float elapsed = 0f;
-        while (elapsed < homingDuration && _gameManager != null)
-        {
-            Vector3 dir = (_gameManager.playerPosition - transform.position).normalized;
-            Quaternion targetRot = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.RotateTowards(
-                transform.rotation, targetRot, homingTurnSpeed * Time.fixedDeltaTime);
+        // --- Homing: FixedUpdate에서 플레이어 추적 시작 ---
+        _inductive = true;
+        _fixedUpdateActive = true;
+    }
 
-            _rigidbody.MovePosition(_rigidbody.position + transform.forward * (homingSpeed * Time.fixedDeltaTime));
+    private void FixedUpdate()
+    {
+        if (!_fixedUpdateActive) return;
 
-            if (transform.position.sqrMagnitude > _maxDistSqr)
-            {
-                Destroy(gameObject);
-                yield break;
-            }
+        if (_inductive && _gameManager != null)
+            transform.LookAt(_gameManager.playerPosition);
 
-            elapsed += Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
-        }
+        _rigidbody.MovePosition(_rigidbody.position + transform.forward * (BulletSpeed * Time.fixedDeltaTime));
 
-        Destroy(gameObject);
+        if (transform.position.sqrMagnitude > _maxDistanceSqr)
+            Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
