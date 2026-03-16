@@ -37,7 +37,8 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
         _startPos = transform.position;
         _scatterDistSqr = scatterDistance * scatterDistance;
         _maxDistSqr = maxDistance * maxDistance;
-        _gameManager.bullets.Add(this);
+        if (_gameManager != null)
+            _gameManager.bullets.Add(this);
     }
 
     private void FixedUpdate()
