@@ -28,11 +28,12 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
     {
         Damage = damage;
         BulletSpeed = bulletSpeed;
+        
+        _gameManager = GameManager.Instance;
     }
 
     private void Start()
     {
-        _gameManager = GameManager.Instance;
         _rigidbody = GetComponent<Rigidbody>();
         _startPos = transform.position;
         _scatterDistSqr = scatterDistance * scatterDistance;
@@ -121,6 +122,8 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
 
     private void OnDestroy()
     {
+        if(_gameManager.bullets == null)
+            return;
         if (_gameManager != null)
             _gameManager.bullets.Remove(this);
     }

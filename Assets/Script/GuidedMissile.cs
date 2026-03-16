@@ -21,7 +21,6 @@ public class GuidedMissile : MonoBehaviour, IBullets
         Damage = damage;
         BulletSpeed = bulletSpeed;
         _maxDistanceSqr = maxDistance * maxDistance;
-        _gameManager.bullets.Add(this);
     }
 
     private void Start()
@@ -29,6 +28,7 @@ public class GuidedMissile : MonoBehaviour, IBullets
         _gameManager = GameManager.Instance;
         _rigidbody = GetComponent<Rigidbody>();
         StartCoroutine(InductiveSwitching());
+        _gameManager.bullets.Add(this);
     }
 
     private void FixedUpdate()
