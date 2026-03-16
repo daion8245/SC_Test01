@@ -1,6 +1,5 @@
+using System.Collections;
 using UnityEngine;
-
-public enum ShotgunBulletState { Scatter, Pause, Homing }
 
 public class ShotgunHomingBullet : MonoBehaviour, IBullets
 {
@@ -16,12 +15,8 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
     public int Damage { get; set; }
     public float BulletSpeed { get; set; }
 
-    private ShotgunBulletState _state = ShotgunBulletState.Scatter;
     private GameManager _gameManager;
     private Rigidbody _rigidbody;
-    private Vector3 _startPos;
-    private float _timer;
-    private float _scatterDistSqr;
     private float _maxDistSqr;
 
     private void Awake()
@@ -34,78 +29,58 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
     {
         _gameManager = GameManager.Instance;
         _rigidbody = GetComponent<Rigidbody>();
-        _startPos = transform.position;
-        _scatterDistSqr = scatterDistance * scatterDistance;
         _maxDistSqr = maxDistance * maxDistance;
         if (_gameManager != null)
             _gameManager.bullets.Add(this);
+
+        StartCoroutine(BulletRoutine());
     }
 
-    private void FixedUpdate()
+    private IEnumerator BulletRoutine()
     {
-        switch (_state)
+        // --- Scatter: 발사 방향으로 직진, 도착지에 가까울수록 감속 ---
+        Vector3 startPos = transform.position;
+        float scatterDistSqr = scatterDistance * scatterDistance;
+
+        while (true)
         {
-            case ShotgunBulletState.Scatter:
-                ScatterUpdate();
+            float distSqr = (transform.position - startPos).sqrMagnitude;
+            if (distSqr >= scatterDistSqr)
                 break;
-            case ShotgunBulletState.Pause:
-                PauseUpdate();
-                break;
-            case ShotgunBulletState.Homing:
-                HomingUpdate();
-                break;
+
+            float t = Mathf.Sqrt(distSqr) / scatterDistance;
+            float speed = Mathf.Lerp(BulletSpeed, BulletSpeed * 0.1f, t);
+            _rigidbody.MovePosition(_rigidbody.position + transform.forward * (speed * Time.fixedDeltaTime));
+            yield return new WaitForFixedUpdate();
         }
-    }
 
-    // --- Scatter: 발사 방향으로 직진, 도착지에 가까울수록 감속 ---
-    private void ScatterUpdate()
-    {
-        float distSqr = (transform.position - _startPos).sqrMagnitude;
+        _rigidbody.linearVelocity = Vector3.zero;
 
-        if (distSqr >= _scatterDistSqr)
+        // --- Pause: 제자리 정지, 대기시간 후 Homing 전환 ---
+        yield return new WaitForSeconds(pauseDuration);
+
+        // --- Homing: 플레이어를 향해 회전하며 추적 ---
+        float elapsed = 0f;
+        while (elapsed < homingDuration && _gameManager != null)
         {
-            _rigidbody.linearVelocity = Vector3.zero;
-            _state = ShotgunBulletState.Pause;
-            _timer = 0f;
-            return;
+            Vector3 dir = (_gameManager.playerPosition - transform.position).normalized;
+            Quaternion targetRot = Quaternion.LookRotation(dir);
+            transform.rotation = Quaternion.RotateTowards(
+                transform.rotation, targetRot, homingTurnSpeed * Time.fixedDeltaTime);
+
+            _rigidbody.MovePosition(_rigidbody.position + transform.forward * (homingSpeed * Time.fixedDeltaTime));
+
+            if (transform.position.sqrMagnitude > _maxDistSqr)
+            {
+                Destroy(gameObject);
+                yield break;
+            }
+
+            elapsed += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
         }
 
-        // t: 0(출발)→1(도착) 으로 갈수록 speed가 줄어든다
-        float t = Mathf.Sqrt(distSqr) / scatterDistance;
-        float speed = Mathf.Lerp(BulletSpeed, BulletSpeed * 0.1f, t);
-        _rigidbody.MovePosition(_rigidbody.position + transform.forward * (speed * Time.fixedDeltaTime));
-    }
-
-    // --- Pause: 제자리 정지, 대기시간 후 Homing 전환 ---
-    private void PauseUpdate()
-    {
-        _timer += Time.fixedDeltaTime;
-        if (_timer >= pauseDuration)
-        {
-            _state = ShotgunBulletState.Homing;
-            _timer = 0f;
-        }
-    }
-
-    // --- Homing: 플레이어를 향해 회전하며 추적 ---
-    private void HomingUpdate()
-    {
-        _timer += Time.fixedDeltaTime;
-        if (_timer >= homingDuration || _gameManager == null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Vector3 dir = (_gameManager.playerPosition - transform.position).normalized;
-        Quaternion targetRot = Quaternion.LookRotation(dir);
-        transform.rotation = Quaternion.RotateTowards(
-            transform.rotation, targetRot, homingTurnSpeed * Time.fixedDeltaTime);
-
-        _rigidbody.MovePosition(_rigidbody.position + transform.forward * (homingSpeed * Time.fixedDeltaTime));
-
-        if (transform.position.sqrMagnitude > _maxDistSqr)
-            Destroy(gameObject);
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
