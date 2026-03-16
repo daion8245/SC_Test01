@@ -30,12 +30,11 @@ public class GuidedMissile : MonoBehaviour, IBullets
         if (_gameManager != null)
             _gameManager.bullets.Add(this);
         StartCoroutine(InductiveSwitching());
-        _gameManager.bullets.Add(this);
     }
 
     private void FixedUpdate()
     {
-        if (_inductive)
+        if (_inductive && _gameManager != null)
             transform.LookAt(_gameManager.playerPosition);
 
         _rigidbody.MovePosition(_rigidbody.position + transform.forward * (BulletSpeed * Time.fixedDeltaTime));

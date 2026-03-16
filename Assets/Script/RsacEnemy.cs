@@ -19,12 +19,14 @@ public class RsacEnemy : Character, IEnemies
 
     private void Start()
     {
-        GameManager.Instance.enemies.Add(this);
+        if (GameManager.Instance != null)
+            GameManager.Instance.enemies.Add(this);
     }
 
     protected void LateUpdate()
     {
-        gameObject.transform.LookAt(GameManager.Instance.playerPosition);
+        if (GameManager.Instance != null)
+            gameObject.transform.LookAt(GameManager.Instance.playerPosition);
     }
 
     protected virtual IEnumerator Fire()
