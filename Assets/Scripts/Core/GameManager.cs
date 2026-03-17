@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
     public static GameManager Instance => _instance;
-    
+
     public Vector3 playerPosition;
     public Player player;
     public List<IEnemies> enemies = new List<IEnemies>();

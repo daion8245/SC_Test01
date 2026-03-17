@@ -7,14 +7,14 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField] private float maxMoveSpeed;
     [SerializeField] private float maxRotateSpeed;
-    
+
     private float _speed;
     private float _rotate;
     private Rigidbody _rigidbody;
 
     private float _vertical;
     private float _horizontal;
-    
+
     void Start()
     {
         _rigidbody = GetComponentInChildren<Rigidbody>();

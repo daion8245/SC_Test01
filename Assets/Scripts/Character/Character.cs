@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum CharacterType
@@ -5,7 +6,7 @@ public enum CharacterType
     Player,
     Enemy
 }
-    
+
 public class Character : MonoBehaviour
 {
     [SerializeField] protected new string name;
@@ -14,7 +15,9 @@ public class Character : MonoBehaviour
     [SerializeField] protected int atk = 10;
     [SerializeField] protected bool isAlive = true;
     [SerializeField] protected CharacterType characterType = CharacterType.Player;
-    
+
+    public Action onHpChanged;
+
     public string Name { get => name; set => name = value; }
     public int Hp
     {
@@ -22,6 +25,7 @@ public class Character : MonoBehaviour
         set
         {
             hp = Mathf.Clamp(value, 0, maxHp);
+            onHpChanged?.Invoke();
             if (hp <= 0 && isAlive)
             {
                 isAlive = false;
@@ -34,7 +38,7 @@ public class Character : MonoBehaviour
     public bool IsAlive { get => isAlive; set => isAlive = value; }
     public CharacterType Type { get => characterType; set => characterType = value;}
 
-    protected bool CrashTest(Collision other)
+    protected virtual bool CrashTest(Collision other)
     {
         if (other.gameObject.TryGetComponent(out Character _))
         {
@@ -44,7 +48,7 @@ public class Character : MonoBehaviour
                 return true;
             }
         }
-            
+
         else if (other.gameObject.TryGetComponent(out IBullets bullet))
         {
             CrashBullets(bullet);

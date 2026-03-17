@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using System.Collections;
 
 public class Player : Character
 {
@@ -23,7 +21,8 @@ public class Player : Character
 
     protected override void CrashBullets(IBullets bullets)
     {
-        Debug.Log("총알 피격");
+        Debug.Log($"{Name} 탄막 피격! {bullets.Damage} 데미지!");
+        Hp -= bullets.Damage;
     }
 
     private void Update()
