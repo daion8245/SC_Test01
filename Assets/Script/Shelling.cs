@@ -27,14 +27,14 @@ public class Shelling : MonoBehaviour, IBullets
     {
         FollowingPlayer();
         yield return new WaitForSeconds(inductiveTime);
-
-        for (int i = 0; i <= _charactersInTrigger.Count; i++)
+        _loop = false;
+        yield return new WaitForSeconds(2f);
+        foreach (var character in _charactersInTrigger)
         {
-            foreach (var character in _charactersInTrigger)
-            {
-                character.Hp -= Damage;
-            }
+            character.Hp -= Damage;
         }
+        
+        Destroy(gameObject);
     }
 
     private void FollowingPlayer()
