@@ -34,7 +34,7 @@ public class GuidedMissile : MonoBehaviour, IBullets
 
     private void FixedUpdate()
     {
-        if (_inductive && _gameManager != null)
+        if (_inductive && _gameManager)
             transform.LookAt(_gameManager.playerPosition);
 
         _rigidbody.MovePosition(_rigidbody.position + transform.forward * (BulletSpeed * Time.fixedDeltaTime));

@@ -8,6 +8,7 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
     [SerializeField] private float scatterDistance = 3.5f;
     [SerializeField] private float pauseDuration = 0.8f;
     [SerializeField] private float maxDistance = 30f;
+    [SerializeField] private float inductiveTime = 1f;
 
     public int Damage { get; set; }
     public float BulletSpeed { get; set; }
@@ -61,13 +62,17 @@ public class ShotgunHomingBullet : MonoBehaviour, IBullets
         // --- Homing: FixedUpdate에서 플레이어 추적 시작 ---
         _inductive = true;
         _fixedUpdateActive = true;
+        
+        yield return new WaitForSeconds(inductiveTime);
+        
+        _inductive = false;
     }
 
     private void FixedUpdate()
     {
         if (!_fixedUpdateActive) return;
 
-        if (_inductive && _gameManager != null)
+        if (_inductive && _gameManager)
             transform.LookAt(_gameManager.playerPosition);
 
         _rigidbody.MovePosition(_rigidbody.position + transform.forward * (BulletSpeed * Time.fixedDeltaTime));

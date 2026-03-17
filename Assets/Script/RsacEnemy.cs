@@ -23,7 +23,7 @@ public class RsacEnemy : Character, IEnemies
             GameManager.Instance.enemies.Add(this);
     }
 
-    protected void LateUpdate()
+    protected virtual void LateUpdate()
     {
         if (GameManager.Instance)
             gameObject.transform.LookAt(GameManager.Instance.playerPosition);
