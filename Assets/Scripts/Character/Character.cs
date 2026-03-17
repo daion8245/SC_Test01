@@ -38,14 +38,11 @@ public class Character : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Character _))
         {
-            if (other.gameObject.GetComponentInChildren<Rigidbody>() != null)
-            {
-                CrashEntity(other);
-                return true;
-            }
+            CrashEntity(other);
+            return true;
         }
-            
-        else if (other.gameObject.TryGetComponent(out IBullets bullet))
+
+        if (other.gameObject.TryGetComponent(out IBullets bullet))
         {
             CrashBullets(bullet);
             return true;

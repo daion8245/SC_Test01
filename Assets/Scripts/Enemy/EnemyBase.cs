@@ -1,8 +1,7 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
-public class RsacEnemy : Character, IEnemies
+public class EnemyBase : Character, IEnemies
 {
     [SerializeField] protected GameObject prefab;
     [SerializeField] protected GameObject firePosition;
@@ -40,5 +39,13 @@ public class RsacEnemy : Character, IEnemies
     public void FiringBullet()
     {
         Instantiate(prefab, firePosition.transform.position, transform.rotation);
+    }
+
+    public Transform Transform => transform;
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.enemies.Remove(this);
     }
 }

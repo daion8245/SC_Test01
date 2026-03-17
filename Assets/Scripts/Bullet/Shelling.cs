@@ -6,52 +6,46 @@ public class Shelling : MonoBehaviour, IBullets
 {
     public int Damage { get; set; }
     public float BulletSpeed { get; set; }
-    
+
     [SerializeField] private int damage;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private float inductiveTime;
-    
+
     private List<Character> _charactersInTrigger = new List<Character>();
+    private bool _following = true;
 
     private void Start()
     {
         Damage = damage;
         BulletSpeed = bulletSpeed;
-
         StartCoroutine(ShellingStart());
     }
 
-    private bool _loop = true;
-    
+    private void Update()
+    {
+        if (_following && GameManager.Instance != null)
+            transform.position = GameManager.Instance.playerPosition;
+    }
+
     private IEnumerator ShellingStart()
     {
-        FollowingPlayer();
         yield return new WaitForSeconds(inductiveTime);
-        _loop = false;
+        _following = false;
         yield return new WaitForSeconds(2f);
         foreach (var character in _charactersInTrigger)
         {
             character.Hp -= Damage;
         }
-        
         Destroy(gameObject);
     }
 
-    private void FollowingPlayer()
-    {
-        while (_loop)
-        {
-            transform.position = GameManager.Instance.playerPosition;
-        }
-    }
-    
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Character character))
             _charactersInTrigger.Add(character);
     }
 
-    private void OnTriggerExit2D(Collider2D other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent(out Character character))
             _charactersInTrigger.Remove(character);

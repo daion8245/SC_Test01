@@ -1,8 +1,7 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
-public class InterceptorEnemy : RsacEnemy
+public class InterceptorEnemy : EnemyBase
 {
     [SerializeField] private GameObject launchLine;
     

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +22,13 @@ public class UiManager : MonoBehaviour
 
     private void Update()
     {
-        hpBar.value = Mathf.InverseLerp(0f, player.MaxHp, player.Hp);
+        if (player != null)
+            hpBar.value = Mathf.InverseLerp(0f, player.MaxHp, player.Hp);
+    }
+
+    public void UpdateHp()
+    {
+        if (player != null)
+            hpBar.value = Mathf.InverseLerp(0f, player.MaxHp, player.Hp);
     }
 }

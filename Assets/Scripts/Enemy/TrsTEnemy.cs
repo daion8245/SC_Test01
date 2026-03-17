@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class TrsTEnemy : RsacEnemy
+public class TrsTEnemy : EnemyBase
 {
     [SerializeField] private float sequenceFireRate = 0.5f;
     

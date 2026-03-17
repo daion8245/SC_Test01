@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class HvyaEnemy : RsacEnemy
+public class HvyaEnemy : EnemyBase
 {
     [SerializeField] private int bulletCount = 10;
     [SerializeField] private float spreadAngle = 60f;
