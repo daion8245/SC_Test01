@@ -31,7 +31,7 @@ public class UiManager : MonoBehaviour
 
     private void RefreshHpBar()
     {
-        if (player != null)
+        if (player)
             hpBar.value = Mathf.InverseLerp(0f, player.MaxHp, player.Hp);
     }
 

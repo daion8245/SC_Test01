@@ -12,22 +12,25 @@ public class Shelling : MonoBehaviour, IBullets
     [SerializeField] private float inductiveTime;
 
     private List<Character> _charactersInTrigger = new List<Character>();
+    private Rigidbody _rigidbody;
 
     private void Start()
     {
+        _rigidbody = GetComponent<Rigidbody>();
         Damage = damage;
         BulletSpeed = bulletSpeed;
         StartCoroutine(ShellingStart());
     }
-
+    
     private IEnumerator ShellingStart()
     {
         float elapsed = 0f;
         while (elapsed < inductiveTime)
         {
-            transform.position = GameManager.Instance.playerPosition;
-            elapsed += Time.deltaTime;
-            yield return null;
+            _rigidbody.MovePosition(GameManager.Instance.playerPosition);
+            elapsed += Time.fixedDeltaTime;
+            // 물리 엔진 타이밍에 맞춰 실행
+            yield return new WaitForFixedUpdate();
         }
         yield return new WaitForSeconds(2f);
         foreach (var character in _charactersInTrigger)
@@ -39,6 +42,7 @@ public class Shelling : MonoBehaviour, IBullets
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("테스트02");
         if (other.TryGetComponent(out Character character))
             _charactersInTrigger.Add(character);
     }
@@ -51,6 +55,6 @@ public class Shelling : MonoBehaviour, IBullets
 
     public void ApplyDamage(Character character)
     {
-        character.Hp -= Damage;
+        Debug.Log("테스트01");
     }
 }

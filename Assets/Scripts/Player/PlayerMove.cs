@@ -28,12 +28,12 @@ public class PlayerMove : MonoBehaviour
         _speed = Mathf.Clamp(moveSpeed * _vertical, -maxMoveSpeed, maxMoveSpeed);
         _rotate = Mathf.Clamp(rotateSpeed * _horizontal, -maxRotateSpeed, maxRotateSpeed);
     }
-
+    
     void FixedUpdate()
     {
-        Vector3 localMovement = new Vector3(0, 0, _speed * Time.fixedDeltaTime);
-        Vector3 movement = _rigidbody.transform.TransformDirection(localMovement);
-        _rigidbody.MovePosition(_rigidbody.position + movement);
+        // 로컬 방향 → 월드 방향으로 변환 후 속도 적용
+        Vector3 moveDir = _rigidbody.transform.forward * _speed;
+        _rigidbody.linearVelocity = new Vector3(moveDir.x, _rigidbody.linearVelocity.y, moveDir.z);
 
         Quaternion rotation = Quaternion.Euler(0, _rotate * Time.fixedDeltaTime, 0);
         _rigidbody.MoveRotation(_rigidbody.rotation * rotation);

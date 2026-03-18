@@ -19,12 +19,6 @@ public class Player : Character
         CrashTest(other);
     }
 
-    protected override void CrashBullets(IBullets bullets)
-    {
-        Debug.Log($"{Name} 탄막 피격! {bullets.Damage} 데미지!");
-        Hp -= bullets.Damage;
-    }
-
     private void Update()
     {
         _gameManager.playerPosition = transform.position;
