@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Shelling : MonoBehaviour, IBullets
@@ -10,8 +9,8 @@ public class Shelling : MonoBehaviour, IBullets
     [SerializeField] private int damage;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private float inductiveTime;
+    [SerializeField] private float damageRadius = 2f;
 
-    private List<Character> _charactersInTrigger = new List<Character>();
     private Rigidbody _rigidbody;
 
     private void Start()
@@ -21,7 +20,7 @@ public class Shelling : MonoBehaviour, IBullets
         BulletSpeed = bulletSpeed;
         StartCoroutine(ShellingStart());
     }
-    
+
     private IEnumerator ShellingStart()
     {
         float elapsed = 0f;
@@ -29,32 +28,21 @@ public class Shelling : MonoBehaviour, IBullets
         {
             _rigidbody.MovePosition(GameManager.Instance.playerPosition);
             elapsed += Time.fixedDeltaTime;
-            // 물리 엔진 타이밍에 맞춰 실행
             yield return new WaitForFixedUpdate();
         }
         yield return new WaitForSeconds(2f);
-        foreach (var character in _charactersInTrigger)
+
+        Collider[] hits = Physics.OverlapSphere(transform.position, damageRadius);
+        foreach (var hit in hits)
         {
-            character.Hp -= Damage;
+            if (hit.TryGetComponent(out Character character))
+                character.Hp -= Damage;
         }
         Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("테스트02");
-        if (other.TryGetComponent(out Character character))
-            _charactersInTrigger.Add(character);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.TryGetComponent(out Character character))
-            _charactersInTrigger.Remove(character);
-    }
-
     public void ApplyDamage(Character character)
     {
-        Debug.Log("테스트01");
+        character.Hp -= Damage;
     }
 }
