@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Player : Character
 {
@@ -46,7 +45,8 @@ public class Player : Character
     public override void Dead()
     {
         Debug.Log("Game Over!");
-        // DataManager는 DontDestroyOnLoad이므로 파츠/돈 유지됨
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // StageManager가 게임오버 흐름 제어
+        if (StageManager.Instance != null)
+            StageManager.Instance.OnGameOver();
     }
 }
