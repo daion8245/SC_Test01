@@ -75,6 +75,10 @@ public class Character : MonoBehaviour
 
     public virtual void TakeDamage(int damage)
     {
+        // 치트: 무적 모드 (플레이어만)
+        if (CheatManager.isInvincible && characterType == CharacterType.Player)
+            return;
+
         int actualDamage = Mathf.Max(damage - def, 1);
         Hp -= actualDamage;
     }

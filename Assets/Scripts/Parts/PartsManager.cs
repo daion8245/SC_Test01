@@ -42,7 +42,7 @@ namespace Parts
                 if (_slot1.type == PartsType.None)
                     return;
                 
-                bool result = _slot2.partsBase.UsePart();
+                bool result = _slot1.partsBase.UsePart();
 
                 if (!result)
                     Debug.Log("아이템이 쿨타임 중입니다.");

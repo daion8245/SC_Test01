@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : Character
 {
@@ -40,5 +41,12 @@ public class Player : Character
             Vector3 pushDirection = (collision.transform.position - transform.position).normalized;
             otherRb.AddForce(pushDirection * pushingForce, ForceMode.Impulse);
         }
+    }
+
+    public override void Dead()
+    {
+        Debug.Log("Game Over!");
+        // DataManager는 DontDestroyOnLoad이므로 파츠/돈 유지됨
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

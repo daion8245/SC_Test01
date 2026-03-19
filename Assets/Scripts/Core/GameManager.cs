@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
+            Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
         }
         else
         {
