@@ -9,12 +9,60 @@ public abstract class EnemyBase : Character, IEnemies
     [SerializeField] protected float fireRate = 2;
     [SerializeField] protected GameObject[] itemPrefabs;
     [SerializeField] protected float dropRate = 0.3f;
+    [SerializeField] protected float moveSpeed = 5f;
 
-    private void Start()
+    private Vector3 _moveTarget;
+    private bool _hasTarget;
+
+    protected virtual void Start()
     {
         if (GameManager.Instance != null)
             GameManager.Instance.enemies.Add(this);
+
+        _moveTarget = PickRandomTargetInView();
+        _hasTarget = true;
+
         StartCoroutine(FireLoop());
+    }
+
+    protected virtual void Update()
+    {
+        if (!isAlive) return;
+
+        if (!_hasTarget)
+        {
+            _moveTarget = PickRandomTargetInView();
+            _hasTarget = true;
+        }
+
+        Vector3 current = transform.position;
+        Vector3 target = _moveTarget;
+        target.y = current.y;
+
+        float dist = Vector3.Distance(current, target);
+        if (dist <= 0.5f)
+        {
+            _moveTarget = PickRandomTargetInView();
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(current, target, moveSpeed * Time.deltaTime);
+        }
+    }
+
+    protected virtual Vector3 PickRandomTargetInView()
+    {
+        Camera cam = Camera.main;
+        if (cam == null) return transform.position;
+
+        float viewX = Random.Range(0.10f, 0.90f);
+        float viewY = Random.Range(0.10f, 0.90f);
+
+        Vector3 viewportPoint = new Vector3(viewX, viewY, cam.WorldToViewportPoint(transform.position).z);
+        Vector3 worldPos = cam.ViewportToWorldPoint(viewportPoint);
+        worldPos.y = transform.position.y;
+
+        return worldPos;
     }
 
     private IEnumerator FireLoop()
