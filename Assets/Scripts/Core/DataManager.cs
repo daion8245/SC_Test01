@@ -10,6 +10,7 @@ namespace Core
         public int stage = 0;
         public int score = 0;
         public int gold = 0;
+        public int killCount = 0;
 
         private void Awake()
         {

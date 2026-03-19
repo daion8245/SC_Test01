@@ -11,7 +11,11 @@ public class SpawnManager : MonoBehaviour
     private float elapsedTime;
     private int spawnIndex;
     private bool bossSpawned;
+    private bool isSpawning;
     private Camera cam;
+
+    public bool IsAllSpawned => stageData != null && spawnIndex >= stageData.spawns.Length;
+    public bool BossSpawned => bossSpawned;
 
     void Start()
     {
@@ -19,10 +23,21 @@ public class SpawnManager : MonoBehaviour
         elapsedTime = 0f;
         spawnIndex = 0;
         bossSpawned = false;
+        isSpawning = false;
+    }
+
+    public void StartSpawning()
+    {
+        elapsedTime = 0f;
+        spawnIndex = 0;
+        bossSpawned = false;
+        isSpawning = true;
     }
 
     void Update()
     {
+        if (!isSpawning) return;
+
         elapsedTime += Time.deltaTime;
 
         // 일반 적 스폰 체크
