@@ -12,7 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a2c66334a349a94ca4769d9a4e4cd98, type: 3}
   m_Name: Stage2
   m_EditorClassIdentifier: Assembly-CSharp::StageData
-  stageName: 
-  spawns: []
+  stageName: "\uC2A4\uD14C\uC774\uC9C02"
+  spawns:
+  - time: 2
+    enemyPrefab: {fileID: 6971885561607057610, guid: 2c93a21755d134a42bfac0dacf86fc8b, type: 3}
+    count: 3
+  - time: 3
+    enemyPrefab: {fileID: 775145093785920118, guid: fc769f60cf2449949ae5b4fa5b2e2de5, type: 3}
+    count: 5
+  - time: 10
+    enemyPrefab: {fileID: 5694149210507714626, guid: c3f9cf460079a8e47a7a7bbb15ccbe11, type: 3}
+    count: 2
+  - time: 4
+    enemyPrefab: {fileID: 2465304080734200742, guid: 02bea1e8e87d9494eba62490fc90cef5, type: 3}
+    count: 4
   bossPrefab: {fileID: 0}
   bossSpawnTime: 60

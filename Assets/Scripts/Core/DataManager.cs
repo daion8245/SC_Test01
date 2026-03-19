@@ -1,4 +1,5 @@
 ﻿using System;
+using Parts;
 using UnityEngine;
 
 namespace Core
@@ -11,6 +12,8 @@ namespace Core
         public int score = 0;
         public int gold = 0;
         public int killCount = 0;
+
+        private PartsSlot[] _slots = new PartsSlot[2];
 
         private void Awake()
         {

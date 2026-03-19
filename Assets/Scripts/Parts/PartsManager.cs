@@ -13,7 +13,7 @@ namespace Parts
         SlowFieldParts,
     }
 
-    internal struct PartsSlot
+    public struct PartsSlot
     {
         public PartsType type;
         public Image image;
