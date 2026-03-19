@@ -27,6 +27,10 @@ public class PlayerMove : MonoBehaviour
 
         _speed = Mathf.Clamp(moveSpeed * _vertical, -maxMoveSpeed, maxMoveSpeed);
         _rotate = Mathf.Clamp(rotateSpeed * _horizontal, -maxRotateSpeed, maxRotateSpeed);
+
+        // 감속: LeftShift 입력 시 속도 30%로 감소
+        if (Input.GetKey(KeyCode.LeftShift))
+            _speed *= 0.3f;
     }
     
     void FixedUpdate()

@@ -7,7 +7,7 @@ namespace Item
         protected override void GetItem(Collider other)
         {
             Player player = other.GetComponent<Player>();
-            if (player != null)
+            if (player == null)
                 return;
             
             player.Hp = player.MaxHp;

@@ -9,16 +9,14 @@ namespace Parts
     {
         protected override void OnUsePart()
         {
-            IBullets[] bullets = GameManager.Instance.bullets.ToArray();
-            foreach (var bullet in bullets)
+            EnemyBase nearEnemy = FindClosestEnemy(GameManager.Instance.playerPosition);
+            if (nearEnemy == null) return;
+
+            Vector3 nearEnemyPosition = nearEnemy.transform.position;
+            foreach (var blt in GameManager.Instance.bullets.ToArray())
             {
-                EnemyBase nearEnemy = FindClosestEnemy(GameManager.Instance.playerPosition);
-                Vector3 nearEnemyPosition = nearEnemy.GetComponent<Transform>().position;
-                foreach (var blt in bullets)
-                {
-                    blt.LookPosition = nearEnemyPosition;
-                    blt.ForcedInduction();
-                }
+                blt.LookPosition = nearEnemyPosition;
+                blt.ForcedInduction();
             }
         }
 
