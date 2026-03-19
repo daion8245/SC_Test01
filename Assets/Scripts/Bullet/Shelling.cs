@@ -46,14 +46,14 @@ public class Shelling : MonoBehaviour, IBullets
         foreach (var hit in hits)
         {
             if (hit.TryGetComponent(out Character character))
-                character.Hp -= Damage;
+                character.TakeDamage(Damage);
         }
         Destroy(gameObject);
     }
 
     public void ApplyDamage(Character character)
     {
-        character.Hp -= Damage;
+        character.TakeDamage(Damage);
     }
     
     protected void EffectGeneration(Collider collision)
