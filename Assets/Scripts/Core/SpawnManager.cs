@@ -5,21 +5,23 @@ public class SpawnManager : MonoBehaviour
     [Header("현재 스테이지 데이터")]
     public StageData stageData;
 
-    [Header("스폰 범위 (화면 가장자리)")]
-    public float spawnMargin = 0.5f;
+    [Header("필드 크기 (실 사용 영역의 절반)")]
+    [SerializeField] private float fieldHalfWidth = 200f;
+    [SerializeField] private float fieldHalfHeight = 107.5f;
+
+    [Header("스폰 마진 (필드 밖 오프셋)")]
+    public float spawnMargin = 5f;
 
     private float elapsedTime;
     private int spawnIndex;
     private bool bossSpawned;
     private bool isSpawning;
-    private Camera cam;
 
     public bool IsAllSpawned => stageData != null && spawnIndex >= stageData.spawns.Length;
     public bool BossSpawned => bossSpawned;
 
     void Start()
     {
-        cam = Camera.main;
         elapsedTime = 0f;
         spawnIndex = 0;
         bossSpawned = false;
@@ -60,33 +62,29 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnEnemy(GameObject prefab)
     {
-        Vector2 pos = GetRandomEdgePosition();
+        Vector3 pos = GetRandomEdgePosition();
         Instantiate(prefab, pos, Quaternion.identity);
     }
 
     void SpawnBoss()
     {
-        // 보스는 화면 상단 중앙에서 등장
-        Vector2 top = cam.ViewportToWorldPoint(new Vector3(0.5f, 1.1f, 0f));
+        // 보스는 상단 중앙(Z+)에서 등장
+        Vector3 top = new Vector3(0f, 0f, fieldHalfHeight + spawnMargin);
         Instantiate(stageData.bossPrefab, top, Quaternion.identity);
     }
 
-    // 화면 4면 중 랜덤 한 면의 가장자리에서 스폰 위치 계산
-    Vector2 GetRandomEdgePosition()
+    // 화면 4면 중 랜덤 한 면의 중앙에서 스폰 위치 계산
+    Vector3 GetRandomEdgePosition()
     {
         int side = Random.Range(0, 4);
-        float vx = 0f, vy = 0f;
 
         switch (side)
         {
-            case 0: vx = Random.value; vy = 1f + spawnMargin; break;  // 위
-            case 1: vx = Random.value; vy = -spawnMargin; break;       // 아래
-            case 2: vx = -spawnMargin; vy = Random.value; break;       // 왼쪽
-            case 3: vx = 1f + spawnMargin; vy = Random.value; break;   // 오른쪽
+            case 0: return new Vector3(0f, 0f, fieldHalfHeight + spawnMargin);   // 위 (Z+)
+            case 1: return new Vector3(0f, 0f, -fieldHalfHeight - spawnMargin);  // 아래 (Z-)
+            case 2: return new Vector3(-fieldHalfWidth - spawnMargin, 0f, 0f);   // 왼쪽 (X-)
+            case 3: return new Vector3(fieldHalfWidth + spawnMargin, 0f, 0f);    // 오른쪽 (X+)
+            default: return Vector3.zero;
         }
-
-        Vector3 worldPos = cam.ViewportToWorldPoint(new Vector3(vx, vy, 0f));
-        worldPos.z = 0f;
-        return worldPos;
     }
 }
