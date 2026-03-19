@@ -75,8 +75,8 @@
   - 파일: `Scripts/Enemy/HeavyEnemy.cs`
 - [x] **InterceptorEnemy (요격기)** — 소형, HP 15, 직선 고속탄, 회피 중심
   - 파일: `Scripts/Enemy/InterceptorEnemy.cs`
-- [ ] **BomberEnemy (폭격기)** — 중형, HP 60, 곡사 폭탄, 예측 공격
-  - 파일: `Scripts/Enemy/BomberEnemy.cs` (신규)
+- [x] **BomberEnemy (폭격기)** — 중형, HP 60, 곡사 폭탄, 예측 공격
+  - 파일: `Scripts/Enemy/BomberEnemy.cs`
   - 우선순위: **필수**
 
 ### 보스
@@ -112,19 +112,19 @@
 
 ## 5. 아이템 시스템 (3종 이상)
 
-- [ ] **ItemBase** — 아이템 공통 베이스 (획득 즉시 효과, 일정 시간 후 소멸)
-  - 파일: `Scripts/Item/ItemBase.cs` (신규)
+- [x] **ItemBase** — 아이템 공통 베이스 (획득 즉시 효과, 일정 시간 후 소멸)
+  - 파일: `Scripts/Item/ItemBase.cs`
   - 우선순위: **필수**
-- [ ] **HpItem (생명력 회복)** — 습득 시 생명치 일정 비율 증가
-  - 파일: `Scripts/Item/HpItem.cs` (신규)
+- [x] **HpItem (생명력 회복)** — 습득 시 생명치 일정 비율 증가
+  - 파일: `Scripts/Item/HpItem.cs`
   - 기획: "생명력 회복"
   - 우선순위: **필수**
-- [ ] **InvincibleItem (일정 시간 무적)** — 습득 시 일정 시간 피격 무효
-  - 파일: `Scripts/Item/InvincibleItem.cs` (신규)
+- [x] **InvincibleItem (일정 시간 무적)** — 습득 시 일정 시간 피격 무효
+  - 파일: `Scripts/Item/InvincibleItem.cs`
   - 기획: "일정 시간 무적"
   - 우선순위: **필수**
-- [ ] **DefenseItem (방어력 강화)** — 습득 시 일정 시간 방어력 증가
-  - 파일: `Scripts/Item/DefenseItem.cs` (신규)
+- [x] **DefenseItem (방어력 강화)** — 습득 시 일정 시간 방어력 증가
+  - 파일: `Scripts/Item/DefenseItem.cs`
   - 기획: "일정 시간 방어력 강화"
   - 우선순위: **필수**
 - [x] **아이템 드롭 시스템** — 적 처치 시 아이템 생성 확률, 위치, 소멸 시간
@@ -138,15 +138,16 @@
 
 ## 6. 파츠 시스템
 
-- [ ] **PartsBase** — 파츠 공통 베이스 (퀵슬롯 장착, 키 입력 발동)
-  - 파일: `Scripts/Parts/PartsBase.cs` (신규)
+- [x] **PartsBase** — 파츠 공통 베이스 (퀵슬롯 장착, 키 입력 발동)
+  - 파일: `Scripts/Parts/PartsBase.cs`
   - 기획: "퀵슬롯에 파츠를 장착하여 해당 키를 누를 시 발동"
   - 우선순위: **필수**
-- [ ] **퀵슬롯 시스템** — 총 2개의 퀵슬롯, 파츠 장착/해제
+- [x] **퀵슬롯 시스템** — 총 2개의 퀵슬롯, 파츠 장착/해제
+  - 파일: `Scripts/Parts/PartsManager.cs`
   - 기획: "총 퀵슬롯의 수는 2개로 제한", "장착과 장착해제 요소를 확실히 구분"
   - 우선순위: **필수**
-- [ ] **ForcedGuidanceParts (강제 유도)** — 화면 상 모든 미사일을 바라보는 적에게 강제 유도
-  - 파일: `Scripts/Parts/ForcedGuidanceParts.cs` (신규)
+- [x] **ForcedGuidanceParts (강제 유도)** — 화면 상 모든 미사일을 바라보는 적에게 강제 유도
+  - 파일: `Scripts/Parts/ForcedGuidanceParts.cs`
   - 우선순위: **필수** (최소 1종)
 - [x] **TimeStopParts (시간 정지)** — 일정 시간 미사일만 시간 정지
   - 파일: `Scripts/Parts/TimeStopParts.cs` (신규)
@@ -316,10 +317,10 @@
 |---------|------|--------|-------|
 | 핵심 게임 시스템 | 2 | 3 | 40% |
 | 플레이어 시스템 | 5 | 1 | 83% |
-| 적 시스템 | 6 | 2 | 75% |
+| 적 시스템 | 7 | 1 | 88% |
 | 탄막/총알 시스템 | 5 | 0 | 100% |
-| 아이템 시스템 | 1 | 5 | 17% |
-| 파츠 시스템 | 1 | 7 | 13% |
+| 아이템 시스템 | 4 | 2 | 67% |
+| 파츠 시스템 | 4 | 4 | 50% |
 | 상점 시스템 | 1 | 2 | 33% |
 | UI | 5 | 4 | 56% |
 | 랭킹 시스템 | 0 | 2 | 0% |
@@ -328,4 +329,4 @@
 | 치트키 | 4 | 0 | 100% |
 | 사운드 | 0 | 2 | 0% |
 | 오프닝 & 엔딩 | 1 | 1 | 50% |
-| **전체** | **33** | **34** | **~49%** |
+| **전체** | **40** | **27** | **~60%** |
