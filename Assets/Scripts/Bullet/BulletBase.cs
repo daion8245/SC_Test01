@@ -55,7 +55,7 @@ public abstract class BulletBase : MonoBehaviour, IBullets
 
     public void ApplyDamage(Character character)
     {
-        character.Hp -= Damage;
+        character.TakeDamage(Damage);
         Destroy(gameObject);
     }
 

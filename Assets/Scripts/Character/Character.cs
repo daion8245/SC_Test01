@@ -14,6 +14,7 @@ public class Character : MonoBehaviour
     [SerializeField] protected int hp = 100;
     [SerializeField] protected int maxHp = 100;
     [SerializeField] protected int atk = 10;
+    [SerializeField] protected int def = 0;
     [SerializeField] protected bool isAlive = true;
     [SerializeField] protected CharacterType characterType = CharacterType.Player;
 
@@ -36,6 +37,7 @@ public class Character : MonoBehaviour
     }
     public int MaxHp { get => maxHp; set => maxHp = value; }
     public int Atk { get => atk; set => atk = value; }
+    public int Def { get => def; set => def = value; }
     public bool IsAlive { get => isAlive; set => isAlive = value; }
     public CharacterType Type { get => characterType; set => characterType = value;}
 
@@ -71,10 +73,16 @@ public class Character : MonoBehaviour
         Debug.Log($"{Name}! {Chara.name} 충돌!");
     }
 
+    public virtual void TakeDamage(int damage)
+    {
+        int actualDamage = Mathf.Max(damage - def, 1);
+        Hp -= actualDamage;
+    }
+
     protected virtual void CrashBullets(IBullets bullets)
     {
         Debug.Log($"{Name} 탄막 피격! {bullets.Damage} 데미지!");
-        Hp -= bullets.Damage;
+        TakeDamage(bullets.Damage);
     }
 
     // ReSharper disable Unity.PerformanceAnalysis
