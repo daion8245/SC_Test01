@@ -51,10 +51,12 @@ public class ShotgunHomingBullet : BulletBase
 
     private void FixedUpdate()
     {
+        LookPosition = GameManager.Instance.playerPosition;
+        
         if (!_fixedUpdateActive) return;
 
         if (_inductive && _gameManager)
-            transform.LookAt(_gameManager.playerPosition);
+            transform.LookAt(LookPosition);
 
         _rigidbody.MovePosition(_rigidbody.position + transform.forward * (BulletSpeed * Time.fixedDeltaTime));
         CheckMaxDistance();

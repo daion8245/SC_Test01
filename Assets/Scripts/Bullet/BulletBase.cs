@@ -5,6 +5,8 @@ public abstract class BulletBase : MonoBehaviour, IBullets
     [SerializeField] protected int damage;
     [SerializeField] protected float bulletSpeed;
     [SerializeField] protected float maxDistance = 30f;
+    [SerializeField] private GameObject effectPrefab;
+    [SerializeField] private float effectDisTime = 2f;
 
     public int Damage { get; set; }
     public float BulletSpeed { get; set; }
@@ -32,8 +34,21 @@ public abstract class BulletBase : MonoBehaviour, IBullets
             Destroy(gameObject);
     }
 
+    protected void EffectGeneration(Collider collision)
+    {
+        if (effectPrefab == null)
+            return;
+        
+        Vector3 explosionPosition = transform.position;
+        GameObject effect = Instantiate(effectPrefab, explosionPosition, Quaternion.identity);
+        Destroy(effect, effectDisTime);
+        Destroy(gameObject);
+    }
+
     protected virtual void OnTriggerEnter(Collider other)
     {
+        EffectGeneration(other);
+        
         if (other.TryGetComponent(out Character character))
             ApplyDamage(character);
     }
@@ -42,5 +57,11 @@ public abstract class BulletBase : MonoBehaviour, IBullets
     {
         character.Hp -= Damage;
         Destroy(gameObject);
+    }
+
+    public Vector3 LookPosition { get; set; }
+    public void ForcedInduction()
+    {
+        transform.LookAt(LookPosition);
     }
 }

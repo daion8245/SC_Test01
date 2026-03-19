@@ -129,6 +129,8 @@ MonoBehaviour:
   damage: 30
   bulletSpeed: 60
   maxDistance: 300
+  effectPrefab: {fileID: 191186, guid: 079954accd64b32419ec069129c81273, type: 3}
+  effectDisTime: 3
   inductiveTime: 3
 --- !u!54 &-7195071070485733929
 Rigidbody:

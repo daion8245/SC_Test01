@@ -112,6 +112,9 @@ MonoBehaviour:
   atk: 10
   isAlive: 1
   characterType: 1
+  deadEffectPrefab: {fileID: 191186, guid: 079954accd64b32419ec069129c81273, type: 3}
+  deadEffectDisTime: 3
+  effectScale: 4
   prefab: {fileID: 3715203968471958605, guid: b37b8a0a3a3d93340ad5a2229a5c9298, type: 3}
   firePosition: {fileID: 5840089171883800449}
   fireRate: 7

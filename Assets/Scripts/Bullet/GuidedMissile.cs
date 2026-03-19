@@ -14,13 +14,16 @@ public class GuidedMissile : BulletBase
         _gameManager = GameManager.Instance;
         if (_gameManager != null)
             _gameManager.bullets.Add(this);
+        
         StartCoroutine(InductiveSwitching());
     }
 
     private void FixedUpdate()
     {
+        LookPosition = GameManager.Instance.playerPosition;
+        
         if (_inductive && _gameManager)
-            transform.LookAt(_gameManager.playerPosition);
+            transform.LookAt(LookPosition);
 
         _rigidbody.MovePosition(_rigidbody.position + transform.forward * (BulletSpeed * Time.fixedDeltaTime));
         CheckMaxDistance();

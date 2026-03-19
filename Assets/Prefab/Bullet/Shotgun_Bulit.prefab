@@ -155,7 +155,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ShotgunHomingBullet
   damage: 10
   bulletSpeed: 100
-  maxDistance: 200
-  scatterDistance: 67.7
+  maxDistance: 250
+  effectPrefab: {fileID: 110790, guid: 0f75f6db4a318f54382e0c98b2226db8, type: 3}
+  effectDisTime: 1
+  scatterDistance: 78.1
   pauseDuration: 1
   inductiveTime: 1

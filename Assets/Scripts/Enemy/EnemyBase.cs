@@ -38,4 +38,10 @@ public abstract class EnemyBase : Character, IEnemies
     {
         Instantiate(prefab, firePosition.transform.position, transform.rotation);
     }
+
+    public override void Dead()
+    {
+        base.Dead();
+        
+    }
 }

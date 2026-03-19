@@ -105,6 +105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42296cf6165135544987d4c34c60dbec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shelling
+  effectPrefab: {fileID: 191186, guid: 079954accd64b32419ec069129c81273, type: 3}
+  effectDisTime: 3
   damage: 64
   bulletSpeed: 3
   inductiveTime: 3

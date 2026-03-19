@@ -5,6 +5,14 @@ public class Shelling : MonoBehaviour, IBullets
 {
     public int Damage { get; set; }
     public float BulletSpeed { get; set; }
+    public Vector3 LookPosition { get; set; }
+    [SerializeField] private GameObject effectPrefab;
+    [SerializeField] private float effectDisTime = 2f;
+    
+    public void ForcedInduction()
+    {
+        _rigidbody.MovePosition(LookPosition);
+    }
 
     [SerializeField] private int damage;
     [SerializeField] private float bulletSpeed;
@@ -19,6 +27,7 @@ public class Shelling : MonoBehaviour, IBullets
         Damage = damage;
         BulletSpeed = bulletSpeed;
         StartCoroutine(ShellingStart());
+        LookPosition = GameManager.Instance.playerPosition;
     }
 
     private IEnumerator ShellingStart()
@@ -26,7 +35,8 @@ public class Shelling : MonoBehaviour, IBullets
         float elapsed = 0f;
         while (elapsed < inductiveTime)
         {
-            _rigidbody.MovePosition(GameManager.Instance.playerPosition);
+            LookPosition = GameManager.Instance.playerPosition;
+            _rigidbody.MovePosition(LookPosition);
             elapsed += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
@@ -45,4 +55,16 @@ public class Shelling : MonoBehaviour, IBullets
     {
         character.Hp -= Damage;
     }
+    
+    protected void EffectGeneration(Collider collision)
+    {
+        if (effectPrefab == null)
+            return;
+        
+        Vector3 explosionPosition = transform.position;
+        GameObject effect = Instantiate(effectPrefab, explosionPosition, Quaternion.identity);
+        Destroy(effect, effectDisTime);
+        Destroy(gameObject);
+    }
+
 }

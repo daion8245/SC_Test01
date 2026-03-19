@@ -6,4 +6,8 @@ public interface IBullets
     public float BulletSpeed {get;set;}
 
     public void ApplyDamage(Character character);
+
+    public Vector3 LookPosition {get;set;}
+
+    public void ForcedInduction();
 }

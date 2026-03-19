@@ -131,6 +131,8 @@ MonoBehaviour:
   damage: 30
   bulletSpeed: 500
   maxDistance: 200
+  effectPrefab: {fileID: 110790, guid: 0f75f6db4a318f54382e0c98b2226db8, type: 3}
+  effectDisTime: 2
 --- !u!54 &4033189941297637304
 Rigidbody:
   m_ObjectHideFlags: 0

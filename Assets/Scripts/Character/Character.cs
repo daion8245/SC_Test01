@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public enum CharacterType
 {
@@ -59,6 +60,9 @@ public class Character : MonoBehaviour
     }
 
     protected Character Chara;
+    [SerializeField] private GameObject deadEffectPrefab;
+    [SerializeField] private float deadEffectDisTime;
+    [SerializeField] private float effectScale = 2f;
 
     protected virtual void CrashEntity(Collision other)
     {
@@ -73,8 +77,24 @@ public class Character : MonoBehaviour
         Hp -= bullets.Damage;
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public virtual void Dead()
     {
         Debug.Log($"{Name} 사망");
+        EffectGeneration(GetComponent<Collider>());
+        Destroy(gameObject);
     }
+    
+    protected void EffectGeneration(Collider collision)
+    {
+        if (deadEffectPrefab == null)
+            return;
+        
+        Vector3 explosionPosition = transform.position;
+        GameObject effect = Instantiate(deadEffectPrefab, explosionPosition, Quaternion.identity);
+        effect.transform.localScale = new Vector3(effectScale, effectScale, effectScale);
+        Destroy(effect, deadEffectDisTime);
+        Destroy(gameObject);
+    }
+
 }
