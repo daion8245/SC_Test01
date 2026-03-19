@@ -835,7 +835,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Stage 1
+  m_text: 'Stage : 1'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 214030e962c50054899a60fa5969bf58, type: 2}
   m_sharedMaterial: {fileID: -737329672671730832, guid: 214030e962c50054899a60fa5969bf58, type: 2}
@@ -1140,6 +1140,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UiManager
   player: {fileID: 1735611495}
   hpBar: {fileID: 1700721980}
+  stageText: {fileID: 339719483}
+  scoreText: {fileID: 469893244}
+  goldText: {fileID: 2064354694}
 --- !u!4 &636070007
 Transform:
   m_ObjectHideFlags: 0
@@ -3839,7 +3842,7 @@ GameObject:
   - component: {fileID: 2064354695}
   - component: {fileID: 2064354694}
   m_Layer: 0
-  m_Name: ScoreTxt (1)
+  m_Name: goldTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
