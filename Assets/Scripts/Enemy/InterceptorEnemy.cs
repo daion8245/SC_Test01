@@ -26,5 +26,20 @@ public class InterceptorEnemy : EnemyBase
             return;
         if (_looking)
             gameObject.transform.LookAt(GameManager.Instance.playerPosition);
+
+        // 뷰포트 경계 클램핑
+        Camera cam = Camera.main;
+        if (cam != null)
+        {
+            Vector3 viewPos = cam.WorldToViewportPoint(transform.position);
+            if (viewPos.x < 0.05f || viewPos.x > 0.95f || viewPos.y < 0.05f || viewPos.y > 0.95f)
+            {
+                viewPos.x = Mathf.Clamp(viewPos.x, 0.05f, 0.95f);
+                viewPos.y = Mathf.Clamp(viewPos.y, 0.05f, 0.95f);
+                Vector3 clampedWorld = cam.ViewportToWorldPoint(viewPos);
+                clampedWorld.y = transform.position.y;
+                transform.position = Vector3.Lerp(transform.position, clampedWorld, Time.deltaTime * 2f);
+            }
+        }
     }
 }
