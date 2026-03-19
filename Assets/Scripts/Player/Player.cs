@@ -28,7 +28,7 @@ public class Player : Character
     {
         base.CrashEntity(other);
         if (Chara == null) return;
-        Chara.Hp -= atk;
+        Chara.TakeDamage(atk);
         PushAwayEntity(other);
     }
 
