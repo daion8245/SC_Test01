@@ -59,11 +59,12 @@ public abstract class EnemyBase : Character, IEnemies
 
     public override void Dead()
     {
-        // 점수/돈 획득
+        // 점수/돈 획득 + 킬 카운트
         if (DataManager.Instance != null)
         {
             DataManager.Instance.score += 100;
             DataManager.Instance.gold += 10;
+            DataManager.Instance.killCount++;
         }
 
         // 아이템 드롭
