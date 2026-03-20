@@ -15,6 +15,19 @@ namespace Core
 
         private PartsSlot[] _slots = new PartsSlot[2];
 
+        public PartsSlot GetSlot(int index) => _slots[index];
+
+        public void SetSlotType(int index, PartsType type)
+        {
+            _slots[index].type = type;
+            _slots[index].slotID = index;
+        }
+
+        public void ResetSlots()
+        {
+            _slots = new PartsSlot[2];
+        }
+
         private void Awake()
         {
             if (Instance == null)
