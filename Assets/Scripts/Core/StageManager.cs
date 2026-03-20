@@ -92,6 +92,13 @@ public class StageManager : MonoBehaviour
         if (spawnManager.BossSpawned)
         {
             SetState(StageState.Boss);
+            return;
+        }
+
+        // 보스가 없는 스테이지: 모든 스폰 완료 + 적 전멸 시 클리어
+        if (spawnManager.IsAllSpawned && GameManager.Instance.enemies.Count == 0)
+        {
+            OnStageClear();
         }
     }
 
@@ -145,7 +152,7 @@ public class StageManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         // 현재 스테이지 재시작 (DataManager는 DontDestroyOnLoad이므로 돈/파츠 유지)
-        SceneManager.LoadScene("Stage");
+        SceneManager.LoadScene("MainGame");
     }
 
     private void SetState(StageState newState)
